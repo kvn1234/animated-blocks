@@ -12,7 +12,7 @@ A WordPress plugin for adding scroll-based CSS3 animations to Gutenberg blocks.
  
  # How to Use
  
-A new panel named "Animation Settings" will appear in the object inspector when clicking on a block. Select an animation from the dropdown list or add your own custom CSS class. The selected animation/custom CSS class will be added to the block element when the end user scrolls to it. 
+A new panel named "Animation Settings" will appear in the block inspector when clicking on a block. Select an animation from the dropdown list or add your own custom CSS class. The selected animation/custom CSS class will be added to the block element when the end user scrolls to it. 
 
 ## Settings 
 
