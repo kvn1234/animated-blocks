@@ -1,5 +1,5 @@
 # Animated Gutenberg Blocks
-A [WordPress Plugin](https://wordpress.org/plugins/animated-blocks/) for adding scroll-based CSS3 animations to Gutenberg blocks. Watch [video demonstration](https://www.youtube.com/watch?v=UawqDDL1vik).
+A [WordPress Plugin](https://wordpress.org/plugins/animated-blocks/) for adding scroll-based CSS3 animations to Gutenberg blocks. Watch the [video demonstration](https://www.youtube.com/watch?v=UawqDDL1vik).
 
 ![Plugin screenshot](https://github.com/virgiliud/animated-blocks/blob/master/assets/screenshot-1.jpg)
 
