@@ -78,6 +78,7 @@ function addAnimation(  props, blockType, attributes  ) {
 /**
  * Filters
  */
+
 addFilter( 'blocks.registerBlockType', 'animated-blocks/addAttributes', addAttributes );
-addFilter( 'blocks.BlockEdit', 'animated-blocks/withInspectorControl', withInspectorControl );
-addFilter( 'blocks.getSaveContent.extraProps', 'animated-blocks/addAnimation', addAnimation ); 
+addFilter( 'editor.BlockEdit', 'animated-blocks/withInspectorControl', withInspectorControl );
+addFilter( 'blocks.getSaveContent.extraProps', 'animated-blocks/addAnimation', addAnimation );
