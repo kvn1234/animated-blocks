@@ -1,84 +1,156 @@
-/**
- * Import styles
- */
+// Import styles
 import './styles/style.scss';
-import './styles/editor.scss';
 
-/**
- * Import block dependencies and components
- */
-import assign from 'lodash.assign';
+// Import block dependencies and components
 import classnames from 'classnames';
-import animationAttr from './data/attributes';
-import Inspector from './components/inspector';
+import { animations } from './animations';
+
+// WordPress dependencies
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+const { 
+	InspectorControls, 
+	InnerBlocks, 
+} = wp.editor;
+const {
+	PanelBody,
+	PanelRow,
+	TextControl,
+	SelectControl,
+	ToggleControl,
+	RangeControl,
+	Autocomplete,
+} = wp.components;
+const { Fragment } = wp.element;
+
+// Block attributes
+const blockAttributes = {
+	animation: {
+    type: 'string',
+  },
+  customClass: {
+    type: 'string',
+  },
+  delay: {
+    type: 'number',
+    default: 0,
+  },
+  threshold: {
+    type: 'number',
+    default: 50,
+  },
+  hideEl: {
+    type: 'boolean',
+    default: false,
+  },
+};
 
 /**
- * Extend addFilter
- */
-const { addFilter } = wp.hooks;
-
-/**
- * Register elements
- */
-const { Fragment, createHigherOrderComponent } = wp.element;
-
-/**
- * Animation attributes
+ * Register: Animated Block
  *
- * @param {Object} Default block settings.
- * @return {Object} Filtered block settings.
+ * @link https://wordpress.org/gutenberg/handbook/block-api/
+ * @param  {string}   name     Block name
+ * @param  {Object}   settings Block settings
  */
-function addAttributes( settings ) {
-	settings.attributes = assign( settings.attributes, animationAttr );
-	return settings;
-}
-
-/**
- * Add new inspector control panel
- *
- * @param {function|component} BlockEdit component.
- * @return {string} Wrapped component.
- */
-const withInspectorControl = createHigherOrderComponent( ( BlockEdit ) => {
-	return ( props ) => {
-		const { animation } = props.attributes;
+registerBlockType( 'ab/animate', {
+	title: __( 'Animated Block' ),
+	icon: 'controls-play',
+	category: 'layout',
+	attributes: blockAttributes,
+	description: __( 'Add whatever content blocks you\'d like inside the animated block.' ),
+	
+	/**
+	 * Define the edit interface
+	 *
+	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
+	 */
+	edit( { attributes, setAttributes, className } ) {
+		
+		const { animation = '', customClass = '', delay, threshold, hideEl } = attributes;
+		
+		const onSelectDelay = ( value ) => {
+			if ( ! value ) {
+				setAttributes( { delay: 0 } );
+				return;
+			}
+			setAttributes( { delay: parseInt(value, 10) } );
+		};
+		
 		return (
+			
 			<Fragment>
-				<Inspector { ...props } />
-				<div className={'animated ' + animation}>
-					<BlockEdit { ...props } />
+				
+				<InspectorControls>
+				
+					<PanelBody>
+				
+						<SelectControl
+	            label={ __( 'Animation' ) }
+	            value={ animation }
+	            options={ animations }
+	            onChange={ ( value ) => setAttributes( { animation: value } ) }
+		        />
+
+            <TextControl
+              label={ __( 'Custom Animation / CSS Class' ) }
+              value={ customClass }
+              onChange={ ( value ) => setAttributes( { customClass: value } ) }
+            />
+            
+            <TextControl
+              label={ __( 'Animation Delay (ms)' ) }
+              value={ delay }
+              onChange={ onSelectDelay }
+            />
+	  
+		        <RangeControl
+	            label={ __( 'Threshold' ) }
+	            value={ threshold }
+	            onChange={ ( value ) => setAttributes( { threshold: value } ) }
+	            min={ 1 }
+	            max={ 100 }
+		        />   
+		        
+		        <ToggleControl
+	            label={ __( 'Set to 0 opacity' ) } 
+	            checked={ hideEl }
+	            onChange={ ( value ) => setAttributes( { hideEl: value } ) }
+		        />
+		
+					</PanelBody>
+						
+				</InspectorControls>
+						
+				<div className={ classnames( className, 'animated', animation ) }>
+					<InnerBlocks />
 				</div>
+				
 			</Fragment>
+			
 		);
-	};
-}, 'withInspectorControl' );
+	},
 
-/**
- * Return a new wrapped component
- *
- * @param {Object} props applied to save element.
- * @param {Object} block type.
- * @param {Object} block attributes.
- * @return {Object} Extra props for the root element of the save function.
- */
-function addAnimation(  props, blockType, attributes  ) {
-	const { animation = '', customClass = '', delay, threshold, hideEl } = attributes;
-	if (animation || customClass) {
-		return Object.assign( props, { 
-			className: classnames( props.className, { 'scroll-hide': hideEl } ), 
-			"data-scroll-class": `${animation} ${customClass}`,
-			"data-scroll-delay": delay,
-			"data-scroll-threshold": threshold   
-		} );
-	} else {
-		return props;
+	/**
+	 * Define the final markup
+	 *
+	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
+	 */
+	save( { attributes, className } ) {
+		
+		const { animation = '', customClass = '', delay, threshold, hideEl } = attributes;
+		
+		return (
+		
+			<div 
+			  className={ classnames( className, { 'scroll-hide': hideEl } ) } 
+			  data-scroll-class={ `${animation} ${customClass}` } 
+			  data-scroll-delay={ delay }
+				data-scroll-threshold={ threshold }    
+			>
+				<InnerBlocks.Content />
+			</div>
+			
+		);
 	}
-}
-
-/**
- * Filters
- */
-
-addFilter( 'blocks.registerBlockType', 'animated-blocks/addAttributes', addAttributes );
-addFilter( 'editor.BlockEdit', 'animated-blocks/withInspectorControl', withInspectorControl );
-addFilter( 'blocks.getSaveContent.extraProps', 'animated-blocks/addAnimation', addAnimation );
+	
+} );
