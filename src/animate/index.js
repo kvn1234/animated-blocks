@@ -54,9 +54,7 @@ registerBlockType("ab/animate", {
   icon: "controls-play",
   category: "layout",
   attributes: blockAttributes,
-  description: __(
-    "Add whatever content blocks you'd like inside the animated block."
-  ),
+  description: __("Add whatever content blocks you'd like inside the animated block."),
 
   /**
    * Define the edit interface
