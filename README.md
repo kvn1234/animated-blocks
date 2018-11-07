@@ -12,7 +12,7 @@ A [WordPress Plugin](https://wordpress.org/plugins/animated-blocks/) for adding 
  
  # How to Use
  
-Select Animated Block from the Layout Elements group and add whatever content blocks you'd like to it. Animated Block acts as a wrapper/conatainer, nesting as many blocks as you want. Animation settings will appear in the block inspector when selecting Animated Block. Select an animation from the dropdown list or add your own custom CSS class. The selected animation or custom CSS class will be added to the block when the end user scrolls to it.
+Select Animated Block from the Layout Elements group and add whatever content blocks you'd like to it. Animated Block acts as a wrapper/container, nesting as many blocks as you want. Animation settings will appear in the block inspector when selecting Animated Block. Select an animation from the dropdown list or add your own custom CSS class. The selected animation or custom CSS class will be added to the block when the end user scrolls to it.
 
 
 ## Settings 
