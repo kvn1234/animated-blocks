@@ -26,7 +26,7 @@ Select Animated Block from the Layout Elements group and add whatever content bl
 > "Gutenberg" is the name of the project to create a new editor experience for WordPress. The goal is to create a new post and page editing experience that makes it easy for anyone to create rich post layouts.
 
 # Requirements
-PHP 5.6+ recommended, WordPress 4.9+. The [Gutenberg Plugin](https://wordpress.org/plugins/gutenberg/) must be installed.
+PHP 5.6+ recommended, WordPress 5.0+. Gutenberg must be enable.
 
 # Note:
 
